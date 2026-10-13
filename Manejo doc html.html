@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía esencial de HTML · Estructura, etiquetas y elementos interactivos</title>
+  
+  <link rel="stylesheet" href="Estilo pag.CSS" />
+  
+</head>
+<body>
+
+  <!-- ENCABEZADO PRINCIPAL -->
+  <header>
+    <h1>🌐 HTML: el lenguaje de marcado que estructura la Web</h1> <br>
+    <p>HTML (HyperText Markup Language) no es un lenguaje de programación; es un <em>lenguaje de marcado</em> que define la estructura y el significado del contenido. Mediante etiquetas, encerramos partes del contenido para que se comporten o se muestren de determinada manera.</p>
+    
+    <br>
+  </header>
+  
+      <br>
+    <h2>Inicio</h2>    
+    
+    <a href="Index.html">Contenidos</a>
+        <br>
+
+  <!-- SECCIÓN 1: DEFINICIÓN Y PARTES DE UN ELEMENTO -->
+  <section class="contenido">
+    <h2>📌 ¿Qué es un elemento HTML?</h2>
+    <p>Un elemento HTML se compone de:</p>
+    <ol>
+      <li><strong>Etiqueta de apertura</strong>: nombre del elemento entre paréntesis angulares <code>&lt;p&gt;</code>. Marca el inicio.</li>
+      <li><strong>Etiqueta de cierre</strong>: igual pero con barra diagonal <code>&lt;/p&gt;</code>. Indica el final.</li>
+      <li><strong>Contenido</strong>: texto, imágenes u otros elementos.</li>
+      <li><strong>Elemento</strong> = etiqueta apertura + contenido + etiqueta cierre.</li>
+    </ol>
+    <div>
+      <p><span>🔹 Ejemplo de párrafo</span></p>
+      <pre><code>&lt;p&gt;Este es un párrafo de ejemplo.&lt;/p&gt;</code></pre>
+    </div>
+    <p>Las etiquetas pueden convertir una palabra en <a href="#">hipervínculo</a>, aplicar <strong>negrita</strong>, <em>cursiva</em>, etc.</p>
+  </section>
+
+  <!-- SECCIÓN 2: ESTRUCTURA BÁSICA DE UN DOCUMENTO -->
+  <section class="Contenido">
+    <h2>🧱 Estructura fundamental de un documento HTML</h2>
+    <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Título de la página&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!-- Contenido visible --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <ul>
+      <li><code>&lt;!DOCTYPE html&gt;</code> — Declaración obligatoria (hoy en día asegura el modo estándar).</li>
+      <li><code>&lt;html&gt;</code> — Elemento raíz que envuelve todo el contenido.</li>
+      <li><code>&lt;head&gt;</code> — Contenedor de metadatos: título, codificación, estilos, etc. (no visible).</li>
+      <li><code>&lt;meta charset="utf-8"&gt;</code> — Define el juego de caracteres universal (UTF-8).</li>
+      <li><code>&lt;title&gt;</code> — Título que aparece en la pestaña del navegador.</li>
+      <li><code>&lt;body&gt;</code> — Todo el contenido que se muestra al usuario (texto, imágenes, vídeos…).</li>
+    </ul>
+  </section>
+
+  <!-- SECCIÓN 3: FORMATO DE TEXTO -->
+  <section class="contenido">
+    <h2>✍️ Etiquetas de formato de texto</h2>
+    <p>HTML ofrece elementos para dar jerarquía y énfasis al texto.</p>
+    <table>
+      <thead>
+        <tr><th>Etiqueta</th><th>Función</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>&lt;p&gt;</code></td><td>Párrafo</td></tr>
+        <tr><td><code>&lt;h1&gt;</code> … <code>&lt;h6&gt;</code></td><td>Encabezados (niveles de título)</td></tr>
+        <tr><td><code>&lt;strong&gt;</code> / <code>&lt;b&gt;</code></td><td>Negrita (semántica / visual)</td></tr>
+        <tr><td><code>&lt;em&gt;</code> / <code>&lt;i&gt;</code></td><td>Cursiva (énfasis / voz alternativa)</td></tr>
+        <tr><td><code>&lt;u&gt;</code></td><td>Subrayado</td></tr>
+        <tr><td><code>&lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;</code></td><td>Listas sin orden, ordenadas y elementos de lista</td></tr>
+      </tbody>
+    </table>
+    <div>
+      <h3>🔤 Ejemplo en vivo (con <code>contenteditable</code>)</h3>
+      <p contenteditable="true">
+        ✏️ <strong>Haz clic y edita este texto</strong> — gracias al atributo <code>contenteditable="true"</code>.
+      </p>
+      <p><small>* El atributo <code>contenteditable</code> permite edición en tiempo real en el navegador.</small></p>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 4: IMÁGENES Y EDICIÓN -->
+  <section class="contenido">
+    <h2>🖼️ Inserción y edición de imágenes</h2>
+    <h3>Etiqueta <code>&lt;img&gt;</code></h3>
+    <pre><code>&lt;img src="ruta-imagen.jpg" alt="Descripción alternativa"&gt;</code></pre>
+    <p>El atributo <code>alt</code> es fundamental para accesibilidad y SEO.</p>
+    
+    <h3>Subir imágenes desde el dispositivo</h3>
+    <pre><code>&lt;input type="file" accept="image/*"&gt;</code></pre>
+    <p><input type="file" accept="image/*"> ← ejemplo funcional (selecciona una imagen).</p>
+    
+    <h3>📝 Edición de contenido en vivo</h3>
+    <p>El atributo global <code>contenteditable</code> convierte cualquier elemento en editable:</p>
+    <ul>
+      <li><code>contenteditable="true"</code> → editable</li>
+      <li><code>contenteditable="false"</code> → bloqueado</li>
+      <li><code>contenteditable</code> (vacío) → se interpreta como <code>true</code></li>
+    </ul>
+  </section>
+
+  <!-- SECCIÓN 5: ELEMENTOS INTERACTIVOS -->
+  <section class="contenido">
+    <h2>⚙️ Elementos interactivos</h2>
+    <p>Permiten al usuario introducir datos, realizar acciones y modificar la página.</p>
+    
+    <h3>📋 Formularios y controles de entrada (<code>&lt;form&gt;</code>)</h3>
+    <p><code>&lt;input&gt;</code> es el más versátil; su comportamiento lo define el atributo <code>type</code>.</p>
+    
+    <h4>Tipos de <code>&lt;input&gt;</code> destacados</h4>
+    <ul>
+      <li><strong>Texto</strong>: <code>text</code>, <code>password</code>, <code>email</code>, <code>search</code>, <code>tel</code>, <code>url</code>, <code>number</code>.</li>
+      <li><strong>Selección</strong>: <code>checkbox</code> (múltiple), <code>radio</code> (única).</li>
+      <li><strong>Fecha / hora</strong>: <code>date</code>, <code>time</code>, <code>datetime-local</code>, <code>month</code>, <code>week</code>.</li>
+      <li><strong>Controles especiales</strong>: <code>color</code> (selector), <code>range</code> (deslizador), <code>file</code> (archivo).</li>
+      <li><strong>Botones</strong>: <code>submit</code>, <code>reset</code>, <code>button</code>.</li>
+      <li><code>hidden</code> (oculto) e <code>image</code> (botón gráfico).</li>
+    </ul>
+    
+    <h4>Otros controles importantes</h4>
+    <ul>
+      <li><code>&lt;textarea&gt;</code> → campo multilínea.</li>
+      <li><code>&lt;select&gt;</code> y <code>&lt;option&gt;</code> → menú desplegable.</li>
+      <li><code>&lt;button&gt;</code> → botón personalizable.</li>
+      <li><code>&lt;datalist&gt;</code> → sugerencias para un <code>&lt;input&gt;</code>.</li>
+      <li><code>&lt;output&gt;</code> → muestra resultado de un cálculo.</li>
+      <li><code>&lt;fieldset&gt;</code> + <code>&lt;legend&gt;</code> → agrupan controles.</li>
+      <li><code>&lt;label&gt;</code> → etiqueta asociada a un control (mejora accesibilidad).</li>
+      <li><code>&lt;meter&gt;</code> y <code>&lt;progress&gt;</code> → medición y progreso.</li>
+    </ul>
+    
+    <div>
+      <h4>🧪 Mini formulario de demostración</h4>
+      <form onsubmit="event.preventDefault(); alert('Formulario enviado (simulación)');">
+        <label>Nombre: <input type="text" placeholder="Escribe tu nombre"></label><br><br>
+        <label>Color favorito: <input type="color" value="#2a9d8f"></label><br><br>
+        <label>Nivel (1-10): <input type="range" min="1" max="10" value="7"></label><br><br>
+        <label><input type="checkbox"> Acepto los términos</label><br><br>
+        <button type="submit">Enviar</button>
+      </form>
+    </div>
+
+    <h3>🧩 Elementos de interacción directa</h3>
+    <ul>
+      <li><code>&lt;details&gt;</code> y <code>&lt;summary&gt;</code> → acordeón que muestra/oculta contenido.
+        <details>
+          <summary>Haz clic para ver más (ejemplo)</summary>
+          <p>Este contenido estaba oculto. Se puede agrupar con el atributo <code>name</code>.</p>
+        </details>
+      </li>
+      <li><code>&lt;dialog&gt;</code> → caja de diálogo modal o no modal.</li>
+      <li>Comandos: definidos con <code>&lt;a&gt;</code>, <code>&lt;button&gt;</code>, <code>&lt;input&gt;</code>, y el atributo <code>accesskey</code>.</li>
+    </ul>
+
+    <h3>🔧 Atributos globales interactivos</h3>
+    <table>
+      <tr><th>Atributo</th><th>Descripción</th></tr>
+      <tr><td><code>contenteditable</code></td><td>Habilita edición en vivo.</td></tr>
+      <tr><td><code>draggable</code></td><td>Permite arrastrar el elemento.</td></tr>
+      <tr><td><code>hidden</code></td><td>Oculta el elemento.</td></tr>
+      <tr><td><code>spellcheck</code></td><td>Activa/desactiva corrección ortográfica.</td></tr>
+      <tr><td><code>tabindex</code></td><td>Controla el orden de tabulación.</td></tr>
+      <tr><td><code>accesskey</code></td><td>Define atajo de teclado.</td></tr>
+    </table>
+  </section>
+
+  <!-- SECCIÓN 6: ELEMENTOS MULTIMEDIA -->
+  <section class="contenido">
+    <h2>🖼️🎵 Elementos multimedia</h2>
+    <p>HTML permite incrustar imágenes, audio, vídeo y contenido externo.</p>
+    
+    <h3>🖼️ Imágenes y gráficos</h3>
+    <ul>
+      <li><code>&lt;img&gt;</code> — imagen simple.</li>
+      <li><code>&lt;figure&gt;</code> + <code>&lt;figcaption&gt;</code> — imagen con leyenda.
+        <figure>
+          <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='80' viewBox='0 0 100 80'%3E%3Crect width='100' height='80' fill='%232a9d8f'/%3E%3Ctext x='10' y='45' fill='white' font-size='14'%3E📷 ejemplo%3C/text%3E%3C/svg%3E" alt="Imagen decorativa de ejemplo">
+          <figcaption>📌 Pie de imagen con <code>&lt;figcaption&gt;</code></figcaption>
+        </figure>
+      </li>
+      <li><code>&lt;picture&gt;</code> — múltiples fuentes para diseño responsivo.</li>
+      <li><code>&lt;map&gt;</code> y <code>&lt;area&gt;</code> — mapa de imagen con zonas cliqueables.</li>
+      <li><code>&lt;canvas&gt;</code> — área de dibujo con JavaScript (gráficos, juegos).</li>
+      <li><code>&lt;svg&gt;</code> — gráficos vectoriales escalables.</li>
+    </ul>
+
+    <h3>🔊 Audio y Vídeo</h3>
+    <ul>
+      <li><code>&lt;audio&gt;</code> — reproduce archivos de audio.
+        <br><audio controls src="data:audio/wav;base64,U3R1ZmZUdXJy//5qAA==">Tu navegador no soporta audio.</audio> <small>(placeholder)</small>
+      </li>
+      <li><code>&lt;video&gt;</code> — reproduce vídeo.</li>
+      <li><code>&lt;source&gt;</code> — ofrece múltiples formatos para <code>&lt;audio&gt;</code>, <code>&lt;video&gt;</code> y <code>&lt;picture&gt;</code>.</li>
+      <li><code>&lt;track&gt;</code> — pistas de texto (subtítulos, descripciones).</li>
+    </ul>
+
+    <h3>📦 Contenido externo / incrustado</h3>
+    <ul>
+      <li><code>&lt;iframe&gt;</code> — incrusta otra página HTML (documento anidado).</li>
+      <li><code>&lt;embed&gt;</code> — contenido externo (PDF, plugin).</li>
+      <li><code>&lt;object&gt;</code> — recurso externo genérico.</li>
+      <li><code>&lt;portal&gt;</code> — navegación fluida (experimental).</li>
+    </ul>
+  </section>
+
+
+
+  <!-- CIERRE / REFERENCIA RÁPIDA -->
+  
+  <section class="contenido">
+      
+       <h2>Algunas etiquetas HTML</h2>
+      
+  <table border="1">
+  <thead>
+    <tr>
+      <th>Etiqueta</th>
+      <th>Definición</th>
+      <th>¿Lleva cierre?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>&lt;html&gt;</td><td>Elemento raíz del documento.</td><td>Sí</td></tr>
+    <tr><td>&lt;head&gt;</td><td>Contenedor de metadatos del documento.</td><td>Sí</td></tr>
+    <tr><td>&lt;title&gt;</td><td>Título del documento (pestaña del navegador).</td><td>Sí</td></tr>
+    <tr><td>&lt;body&gt;</td><td>Contiene todo el contenido visible.</td><td>Sí</td></tr>
+    <tr><td>&lt;h1&gt;...&lt;h6&gt;</td><td>Encabezados (del más importante al menos).</td><td>Sí</td></tr>
+    <tr><td>&lt;p&gt;</td><td>Define un párrafo de texto.</td><td>Sí</td></tr>
+    <tr><td>&lt;a&gt;</td><td>Define un enlace (hipervínculo).</td><td>Sí</td></tr>
+    <tr><td>&lt;table&gt;</td><td>Contenedor para crear una tabla.</td><td>Sí</td></tr>
+    <tr><td>&lt;tr&gt;</td><td>Define una fila dentro de una tabla.</td><td>Sí</td></tr>
+    <tr><td>&lt;td&gt;</td><td>Define una celda dentro de una fila.</td><td>Sí</td></tr>
+    <tr><td>&lt;ul&gt;</td><td>Lista desordenada (con viñetas).</td><td>Sí</td></tr>
+    <tr><td>&lt;li&gt;</td><td>Elemento de una lista.</td><td>Sí</td></tr>
+    <tr><td>&lt;form&gt;</td><td>Define un formulario de entrada.</td><td>Sí</td></tr>
+    <tr><td>&lt;label&gt;</td><td>Etiqueta para un elemento de formulario.</td><td>Sí</td></tr>
+    <tr><td>&lt;input&gt;</td><td>Campo de entrada de datos.</td><td>No (Autocerrada)</td></tr>
+    <tr><td>&lt;textarea&gt;</td><td>Área de texto de varias líneas.</td><td>Sí</td></tr>
+    <tr><td>&lt;button&gt;</td><td>Botón clicable.</td><td>Sí</td></tr>
+    <tr><td>&lt;select&gt;</td><td>Lista desplegable.</td><td>Sí</td></tr>
+    <tr><td>&lt;option&gt;</td><td>Opción dentro de un select.</td><td>Sí</td></tr>
+    <tr><td>&lt;fieldset&gt;</td><td>Agrupa elementos relacionados en un formulario.</td><td>Sí</td></tr>
+    <tr><td>&lt;legend&gt;</td><td>Título para el fieldset.</td><td>Sí</td></tr>
+    <tr><td>&lt;iframe&gt;</td><td>Incrusta otra página web.</td><td>Sí</td></tr>
+    <tr><td>&lt;hr&gt;</td><td>Línea horizontal (divisor).</td><td>No (Autocerrada)</td></tr>
+  </tbody>
+</table>
+    </section>
+
+  <!-- Pequeño script opcional para mostrar funcionalidad de contenteditable -->
+  <script>
+    (function() {
+      // Solo para resaltar que el atributo funciona.
+      console.log('Página estructurada con HTML semántico. ¡Explora los ejemplos interactivos!');
+    })();
+  </script>
+</body>
+</html>

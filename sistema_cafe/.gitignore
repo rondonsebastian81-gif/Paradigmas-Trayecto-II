@@ -1,0 +1,16 @@
+# Archivos temporales y del sistema operativo
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Registros y temporales
+*.log
+*.tmp
+
+# Carpetas de dependencias / editores
+.vscode/
+.idea/
+node_modules/
+
+# Configuración local con credenciales reales (si se personaliza)
+# config/config.local.php

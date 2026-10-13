@@ -1,0 +1,79 @@
+/* Definición de variables globales para fácil mantenimiento */
+:root {
+    --color-primario: #780EA9;       /* morado profesional */
+    --color-secundario: #FF7A00;     /* Naranja vibrante */
+    --color-fondo: #f4f7f6;          /* Gris muy claro */
+    --color-texto: #333333;          /* Gris oscuro para legibilidad */
+    --color-blanco: #ffffff;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
+}
+
+/* Encabezado */
+header {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    padding: 1rem;
+    text-align: center;
+}
+
+/* Contenedor principal */
+.contenido {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: var(--color-blanco);
+    border-top: 5px solid var(--color-primario);
+    border-radius: 8px;
+}
+/* Strong */
+
+strong {
+    
+    color: var(--color-primario);
+    
+       }
+
+h2 {
+    
+    color: var(--color-primario);
+    
+} 
+
+h3 {
+    
+    color: var(--color-primario);
+    
+}
+
+h4 {
+    
+    color: var(--color-primario);
+    
+}
+
+li {
+    color: var(--color-primario);
+}
+
+a {
+    color: var(--color-primario);
+}
+
+summary{
+    
+    color: var(--color-primario);
+    font-size: h4;
+}

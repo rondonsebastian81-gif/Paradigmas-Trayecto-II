@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POO - Repositorio de Contenidos</title>
+    
+    <link rel="stylesheet" href="stylePOO.css">
+</head>
+<body>
+
+    <header class="poo-header">
+        <h1>Programación Orientada a Objetos (POO)</h1>
+    </header>
+
+    <div class="poo-container">
+        
+        <div class="poo-card">
+            <h2>¿Qué es la Programación Orientada a Objetos?</h2>
+            <p>La Programación Orientada a Objetos (POO) es un paradigma o estilo de programación que nos permite organizar el código de una manera que imita cómo pensamos en el mundo real. En lugar de escribir una lista interminable de instrucciones paso a paso (como una receta de cocina), construimos "objetos" que interactúan entre sí dentro del sistema.</p>
+            <p>Imagina que estás diseñando un videojuego o un sistema de gestión. Todo lo que ves puede ser un objeto: un usuario, una factura, un botón en la pantalla o un enemigo en el juego. Cada uno de estos objetos tiene <strong>características</strong> (como su color, nombre o tamaño) y <strong>comportamientos</strong> (como moverse, calcular un total o enviar un mensaje).</p>
+        </div>
+
+        <div class="poo-card">
+            <h2>1. Clases y Objetos: El molde y la galleta</h2>
+            <p>Para crear objetos, primero necesitamos un plano o plantilla. A esto le llamamos <strong>Clase</strong>.</p>
+            <ul>
+                <li><strong>Clase:</strong> Es el molde. Define qué características y acciones tendrán los objetos que se creen a partir de ella, pero no es el objeto en sí. (Ejemplo: El plano arquitectónico de una casa).</li>
+                <li><strong>Objeto:</strong> Es la materialización de esa clase. (Ejemplo: La casa ya construida en la que puedes vivir).</li>
+            </ul>
+            
+            <h3>Ejemplo Práctico:</h3>
+            <pre><code>// Definimos la Clase (El Molde)
+class Perro {
+    constructor(nombre, raza) {
+        this.nombre = nombre; // Atributo (Característica)
+        this.raza = raza;     // Atributo
+    }
+
+    ladrar() { // Método (Comportamiento)
+        console.log(this.nombre + " dice: ¡Guau, guau!");
+    }
+}
+
+// Creamos Objetos (Materialización)
+const miPerro = new Perro("Max", "Golden Retriever");
+const perroVecino = new Perro("Luna", "Pug");
+
+miPerro.ladrar(); // Salida: Max dice: ¡Guau, guau!
+</code></pre>
+        </div>
+
+        <div class="poo-card">
+            <h2>2. Abstracción: Mostrando solo lo importante</h2>
+            <p>La abstracción consiste en ocultar toda la complejidad interna de un objeto y mostrarle al usuario solo lo que necesita para usarlo. Piensa en un televisor: sabes que con el control remoto puedes cambiar de canal o subir el volumen (esa es la interfaz visible). No necesitas saber cómo los circuitos internos procesan la señal para poder ver tu programa favorito.</p>
+        </div>
+
+        <div class="poo-card">
+            <h2>3. Encapsulamiento: Protegiendo la información</h2>
+            <p>El encapsulamiento agrupa los datos (atributos) y las funciones (métodos) en una sola unidad (la clase), y <strong>restringe el acceso directo</strong> a algunos de esos datos desde afuera. Esto funciona como un escudo protector para evitar que el código externo modifique el estado de un objeto de manera incorrecta o accidental.</p>
+            
+            <h3>Ejemplo Práctico:</h3>
+            <pre><code>class CuentaBancaria {
+    // El símbolo '#' indica que el saldo es privado
+    #saldo; 
+
+    constructor(titular, saldoInicial) {
+        this.titular = titular;
+        this.#saldo = saldoInicial;
+    }
+
+    depositar(cantidad) {
+        if(cantidad > 0) {
+            this.#saldo += cantidad;
+        }
+    }
+
+    verSaldo() {
+        return `El saldo de ${this.titular} es $${this.#saldo}`;
+    }
+}
+
+const miCuenta = new CuentaBancaria("Sebastián", 100);
+miCuenta.depositar(50);
+
+console.log(miCuenta.verSaldo()); // Salida: El saldo de Sebastián es $150
+</code></pre>
+        </div>
+
+        <div class="poo-card">
+            <h2>4. Herencia: Reutilizando el código</h2>
+            <p>La herencia permite crear una nueva clase (clase hija) a partir de una clase existente (clase padre). La clase hija hereda todos los atributos y métodos del padre, pero puede tener los suyos propios. Es el principio fundamental para evitar repetir código en la ingeniería de software.</p>
+            
+            <h3>Ejemplo Práctico:</h3>
+            <pre><code>// Clase Padre
+class Vehiculo {
+    moverse() {
+        console.log("El vehículo se está moviendo.");
+    }
+}
+
+// Clase Hija (Hereda de Vehiculo)
+class Coche extends Vehiculo {
+    encenderAire() {
+        console.log("Aire acondicionado encendido.");
+    }
+}
+
+const autoDeportivo = new Coche();
+autoDeportivo.moverse();      // Heredado de Vehiculo
+autoDeportivo.encenderAire(); // Propio de Coche
+</code></pre>
+        </div>
+
+        <div class="poo-card">
+            <h2>5. Polimorfismo: Múltiples formas de actuar</h2>
+            <p>Proviene del griego "muchas formas". El polimorfismo permite que objetos de diferentes clases hijas respondan de manera distinta a una misma orden (método) dada por la clase padre. Dependiendo de qué objeto esté recibiendo la orden, el resultado de la acción se adaptará a su naturaleza.</p>
+            
+            <h3>Ejemplo Práctico:</h3>
+            <pre><code>class Animal {
+    hacerSonido() {
+        console.log("Haciendo un sonido genérico...");
+    }
+}
+
+class Gato extends Animal {
+    hacerSonido() { // Sobrescribe el método del padre
+        console.log("Miau, miau");
+    }
+}
+
+class Vaca extends Animal {
+    hacerSonido() { // Sobrescribe el método del padre
+        console.log("Muuu, muuu");
+    }
+}
+
+const miGato = new Gato();
+const miVaca = new Vaca();
+
+miGato.hacerSonido(); // Salida: Miau, miau
+miVaca.hacerSonido(); // Salida: Muuu, muuu
+</code></pre>
+        </div>
+
+        <div class="poo-card video-section">
+            <h2>Material Audiovisual: Práctica Paso a Paso</h2>
+            <p>En el siguiente video tutorial aplicaremos estos cinco pilares en un proyecto real. Prepara tu editor de código y acompáñame:</p>
+            
+            <div class="video-placeholder">
+                <p>[ Aquí irá integrado el video tutorial de POO ]</p>
+            </div>
+            
+        </div>
+
+    </div>
+
+</body>
+</html>

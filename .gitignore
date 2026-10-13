@@ -1,0 +1,16 @@
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Archivos temporales
+*.tmp
+~$*
+
+# Video pesado (excede el limite de 100 MB de GitHub; conservar solo en local)
+Image/poo/PooParadigmas.mp4

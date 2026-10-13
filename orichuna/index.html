@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ORICHUNA.CA — Sistema de Asignación de Cupos</title>
+<link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+
+<div id="pantalla-login" class="pantalla-login">
+  <div class="login-caja">
+    <div class="login-enc">
+      <div class="logo-enc">ORICHUNA.CA</div>
+      <div class="sub-enc">Estación de Servicios · Asignación de cupos y turnos vehiculares</div>
+    </div>
+    <div class="login-tabs">
+      <button id="tab-cuenta" class="login-tab activo">Administrador / Empleado</button>
+      <button id="tab-cliente" class="login-tab">Cliente (público)</button>
+    </div>
+
+    <div id="panel-cuenta" class="login-panel">
+      <label class="etiqueta">Correo o teléfono verificado</label>
+      <input id="login-id" class="entrada" placeholder="rondonsebastian81@gmail.com o 0412-0000000">
+      <button id="btn-codigo" class="boton ancho-total">Enviar código de verificación</button>
+      <div id="login-error" class="aviso-error"></div>
+      <p class="nota">El código aparece en pantalla y, con EmailJS configurado, también llega al correo de la cuenta.</p>
+    </div>
+
+    <div id="panel-cliente" class="login-panel oculto">
+      <h3 class="panel-titulo">Registrarme como cliente</h3>
+      <div class="login-grid">
+        <input id="c-cedula" class="entrada" placeholder="Cédula (V-12345678)">
+        <input id="c-nombre" class="entrada" placeholder="Nombre">
+        <input id="c-apellido" class="entrada" placeholder="Apellido">
+        <input id="c-correo" class="entrada" placeholder="Correo electrónico">
+        <input id="c-telefono" class="entrada" placeholder="Teléfono (0412-1234567)">
+      </div>
+      <div id="c-errores" class="aviso-error"></div>
+      <button id="btn-registrar-cliente" class="boton ancho-total">Registrarme y verificar</button>
+
+      <hr class="login-separador">
+
+      <h3 class="panel-titulo">Ya tengo cuenta de cliente</h3>
+      <label class="etiqueta">Correo o teléfono</label>
+      <input id="clogin-id" class="entrada" placeholder="mi@correo.com o 0424-0000000">
+      <button id="btn-codigo-cliente" class="boton ancho-total boton-secundario">Enviar código de verificación</button>
+      <div id="clogin-error" class="aviso-error"></div>
+
+      <hr class="login-separador">
+
+      <p class="nota" style="text-align:center">¿Solo quieres pedir un cupo sin registrarte?</p>
+      <button id="btn-cliente" class="boton ancho-total boton-secundario">Entrar como cliente (público)</button>
+    </div>
+
+    <div class="login-pie">
+      <button id="btn-reset-login" class="enlace">Restablecer datos de demostración</button>
+    </div>
+  </div>
+</div>
+
+<div id="pantalla-app" class="pantalla-app oculto">
+  <header class="app-bar">
+    <div class="marca">
+      <span class="marca-nombre">ORICHUNA.CA</span>
+      <span class="marca-sub">Estación de Servicios</span>
+    </div>
+    <div class="sesion">
+      <span id="chip-rol" class="chip-rol"></span>
+      <span id="chip-usuario" class="chip-usuario"></span>
+      <button id="btn-salir" class="boton boton-chico">Salir</button>
+    </div>
+  </header>
+
+  <nav id="nav" class="nav"></nav>
+
+  <main id="main" class="contenedor">
+    <section id="vista-inicio" class="vista"></section>
+    <section id="vista-asignacion" class="vista"></section>
+    <section id="vista-tickets" class="vista"></section>
+    <section id="vista-estacion" class="vista"></section>
+    <section id="vista-usuarios" class="vista"></section>
+    <section id="vista-reportes" class="vista"></section>
+    <section id="vista-busqueda" class="vista"></section>
+  </main>
+
+  <footer class="pie-app">
+    ORICHUNA.CA · Sistema de Asignación de Cupos Vehiculares · HTML + CSS + JavaScript (POO)
+  </footer>
+</div>
+
+<div id="modal" class="modal oculto">
+  <div class="modal-caja">
+    <h3 id="modal-titulo">Verificación</h3>
+    <p id="modal-destino" class="modal-destino"></p>
+    <p id="modal-nota" class="nota"></p>
+    <div class="codigo-muestra">Código enviado: <b id="modal-codigo">—</b></div>
+    <input id="modal-input" class="entrada modal-input" placeholder="Ingrese el código" inputmode="numeric">
+    <div id="modal-error" class="aviso-error"></div>
+    <div class="modal-botones">
+      <button id="modal-aceptar" class="boton">Verificar e ingresar</button>
+      <button id="modal-cancelar" class="boton boton-secundario">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="js/modelos.js"></script>
+<script src="js/nucleo.js"></script>
+<script src="js/vistas/inicio.js"></script>
+<script src="js/vistas/asignacion.js"></script>
+<script src="js/vistas/tickets.js"></script>
+<script src="js/vistas/estacion.js"></script>
+<script src="js/vistas/usuarios.js"></script>
+<script src="js/vistas/reportes.js"></script>
+<script src="js/vistas/busqueda.js"></script>
+</body>
+</html>

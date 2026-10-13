@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teoría del DOM | Repositorio de Contenidos</title>
+    <link rel="stylesheet" href="Estilo pag.CSS">
+    <link rel="icon" type="image.jpg" href="Image/icon.jpg">
+</head>
+<body>
+
+    <header>
+        <h1><em>Teoría del DOM (Modelo de Objetos del Documento)</em></h1>
+    </header>
+
+    <main class="contenido">
+        <h2>¿Qué es el DOM?</h2>
+        <p>El <strong>DOM (Document Object Model)</strong> es una interfaz de programación que representa
+        un documento HTML como un <strong>árbol de objetos</strong>. Gracias a él, un lenguaje como
+        JavaScript puede leer, modificar, añadir o eliminar la estructura, el contenido y el estilo de una
+        página web en tiempo real.</p>
+        <p>En otras palabras: el navegador convierte tu HTML en un conjunto de <strong>nodos</strong> que
+        podemos manipular con código. El DOM no forma parte de JavaScript ni de HTML, sino que es el
+        <strong>puente</strong> que los conecta.</p>
+
+        <img src="Image/Desarrollo Web/Tres capas.jpg" width="100%" alt="Estructura por capas de una página web">
+        <p><em>Ejemplo de la separación de capas: estructura (HTML), presentación (CSS) y comportamiento (JS).</em></p>
+    </main>
+
+    <section class="contenido">
+        <h2>El árbol de nodos</h2>
+        <p>Todo en el documento es un <strong>nodo</strong>. Al abrir una etiqueta dentro de otra se crea una
+        relación <em>padre → hijo</em>, formando un árbol:</p>
+        <pre><code>document
+ └── html
+      ├── head
+      │    └── title
+      └── body
+           ├── h1
+           └── p</code></pre>
+
+        <h3>Tipos de nodos principales</h3>
+        <ul>
+            <li><strong>Document:</strong> el punto de entrada; representa toda la página.</li>
+            <li><strong>Element Node:</strong> cada etiqueta HTML (<code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;input&gt;</code>…).</li>
+            <li><strong>Text Node:</strong> el texto contenido dentro de un elemento.</li>
+            <li><strong>Attribute Node:</strong> los atributos de una etiqueta (<code>id</code>, <code>class</code>, <code>href</code>…).</li>
+        </ul>
+    </section>
+
+    <section class="contenido">
+        <h2>Seleccionar elementos</h2>
+        <table>
+            <tr><th>Método</th><th>Qué devuelve</th></tr>
+            <tr><td><code>document.getElementById("id")</code></td><td>Un único elemento por su <em>id</em>.</td></tr>
+            <tr><td><code>document.querySelector("css")</code></td><td>El <strong>primer</strong> elemento que coincide con un selector CSS.</td></tr>
+            <tr><td><code>document.querySelectorAll("css")</code></td><td>Una lista con <strong>todos</strong> los elementos que coinciden.</td></tr>
+            <tr><td><code>document.getElementsByClassName("clase")</code></td><td>Elementos que tienen cierta clase.</td></tr>
+        </table>
+    </section>
+
+    <section class="contenido">
+        <h2>Modificar el documento</h2>
+        <p>Una vez seleccionado un nodo podemos cambiar su contenido, sus atributos o sus estilos:</p>
+        <pre><code>const titulo = document.getElementById("titulo");
+
+titulo.textContent = "Nuevo texto";     // cambia el texto
+titulo.innerHTML   = "&lt;strong&gt;Hola&lt;/strong&gt;"; // inserta HTML
+titulo.setAttribute("class", "activo");  // cambia un atributo
+titulo.style.color = "#780EA9";          // cambia un estilo
+titulo.classList.add("resaltado");       // añade una clase</code></pre>
+    </section>
+
+    <section class="contenido">
+        <h2>Eventos</h2>
+        <p>Un <strong>evento</strong> es una acción que ocurre en la página (un clic, escribir en un campo,
+        enviar un formulario, mover el mouse…). Se "escuchan" con <code>addEventListener</code>:</p>
+        <pre><code>const boton = document.querySelector("#guardar");
+
+boton.addEventListener("click", function (e) {
+    e.preventDefault();          // evita el comportamiento por defecto
+    alert("¡Botón presionado!");
+});</code></pre>
+        <p>Eventos muy usados: <code>click</code>, <code>submit</code>, <code>input</code>,
+        <code>change</code>, <code>keydown</code> y <code>DOMContentLoaded</code>.</p>
+    </section>
+
+    <section class="contenido">
+        <h2>¿Dónde se usa el DOM en este repositorio?</h2>
+        <p>El módulo de café ya no usa el DOM en el navegador: ahora es un sistema <strong>PHP + MySQL</strong>
+        que se ejecuta en un servidor. Aun así, el patrón del DOM sigue presente en su interfaz: el JavaScript
+        del cliente valida formularios y hace cálculos dinámicos de totales, mientras que PHP genera el HTML
+        del lado del servidor.</p>
+        <p><a href="Index.html">&larr; Volver al inicio del repositorio</a></p>
+    </section>
+
+<br>
+
+</body>
+</html>

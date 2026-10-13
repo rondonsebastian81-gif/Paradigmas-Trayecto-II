@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+    
+    
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="Estilo pag.CSS">
+    <title>Estructura Cliente-Servidor</title>
+    <icon>
+</head>
+
+
+        <body>
+
+    <header>
+        <h1><em>Paradigma Estructura Cliente-Servidor</em></h1> <br>
+        <img src="Image/Desarrollo Web/Cliente-Servidor.jpg" width="350">
+        
+    </header>
+    <br>
+    <h2>Inicio</h2>    
+    
+    <a href="Index.html">Contenidos</a>
+    <!--Indice -->
+    <main class="contenido">
+        <h2>Indice:</h2>
+        
+        <br>
+        
+        <ul>
+            
+            <li>
+                 <a href="#Paradigmas basicos">Conceptos basicos de paradigmas.</a>
+            </li>
+                <br>
+            <li> 
+                <a href="#Cliente-Servidor">Conceptos basicos de la estructura: Cliente-Servidor.</a>
+            </li>
+                <br> 
+            <li>
+                <a href="#Tres capas"> Arquitectura de tres capas: Dato, Negocio, Presentación.</a>
+            </li>
+                <br>
+            <li>
+                 <a href="#Sitio Web">Sitio Web. </a>
+            </li>
+                <br>
+            
+        </ul>
+        
+        
+        
+        
+        
+        
+        
+    </main>
+            <br>
+    <!--Conceptos Basicos Paradigmas-->
+    <section class="contenido">
+        
+        <h2 id="Paradigmas basicos">Conceptos basicos de Paradigmas de programación</h2> <br>
+            
+            <img src="Image/Desarrollo Web/Paradigmas.jpg" alt="" width="350" /> <br>
+        
+        <br>
+        
+        <ul>
+            <article>
+    
+            Los paradigmas de programación son los principios fundamentales de la programación de software. Lo más fácil es planteárselos como estilos de programación fundamentalmente diferenciados que, en consecuencia, generan códigos software que están estructurados de forma distinta.
+        
+            </article>
+            
+            <br>
+           
+        <h3>
+            Programación imperativa
+        </h3>
+         
+        <br>
+       
+            <article>
+                Entre los paradigmas de programación de software, la programación imperativa (del latín imperare, ordenar) se considera el paradigma clásico. Los primeros lenguajes de programación y, por extensión, también los primeros programas informáticos, se basaban completamente en este enfoque, que prevé una secuencia regularizada de órdenes o instrucciones determinadas. Este paradigma de programación es la base, por ejemplo, de los veteranos lenguajes <strong>Pascal</strong> y <strong>C</strong>, así como de todos los lenguajes ensambladores, entre otros. En la programación imperativa, el centro de atención radica, entre otras cosas, en trabajar lo más cerca posible del sistema. Como consecuencia, el código de programación resultante es fácil de comprender y, a la vez, muy abarcable.
+            </article>
+           
+            <br>
+            
+            <p>
+                La programación estructurada, la procedimental y la modular son tres enfoques adicionales subordinados al paradigma de programación imperativa para escribir y estructurar código software.
+            </p>
+            
+            <br>
+
+ 
+ 
+            
+        
+     
+       <details> 
+       
+            <summary>
+                Programación estructurada      
+            </summary>
+
+      
+        
+            
+            
+            <br>
+            
+            <article>
+                
+                El enfoque estructurado de programación constituye una forma simplificada de programación imperativa. La principal modificación del principio básico radica en que, en lugar de instrucciones de salto absolutas (instrucciones que provocan que el procesamiento no continúe con la siguiente instrucción, sino en otro lugar) este paradigma de programación de software prevé el <strong>uso de bucles y estructuras de control</strong>. Un ejemplo de ello es el uso de <strong>“do...while”</strong> para realizar una instrucción de forma automática siempre que se dé una determinada condición (al menos una vez).
+                
+            </article>
+            
+        </details>
+
+            <br>
+
+        <details>
+            <summary>Programación procedimental</summary>
+                <br>
+                    <article>
+                        El paradigma de programación procedimental amplía el enfoque imperativo con la posibilidad de desglosar algoritmos en porciones manejables. Estos se denominan como procedimientos, dependiendo del lenguaje de programación, o también como subprogramas, rutinas o funciones. El sentido y el propósito de esta distribución es hacer que el código de programa sea más claro y evitar las repeticiones innecesarias de código. Mediante la abstracción de los algoritmos, el paradigma de software procedimental representa un paso decisivo desde los lenguajes ensambladores simples hasta los lenguajes estándar complejos.
+                    </article>
+
+        </details>
+        
+            <br>
+
+        <details>
+            <summary>programación modular</summary>
+                <br>
+                    <article>
+                        La pro­gra­ma­ción modular también se clasifica como un subtipo del paradigma de pro­gra­ma­ción im­pe­ra­ti­vo. En principio, es muy similar al enfoque pro­ce­di­me­n­tal, o más bien lo adapta a los re­que­ri­mie­n­tos de proyectos de software mayores y más amplios. En este sentido, el código fuente se divide es­pe­cí­fi­ca­me­n­te en bloques parciales lógicos in­de­pe­n­die­n­tes los unos de los otros para pro­po­r­cio­nar más tra­n­s­pa­re­n­cia y facilitar el proceso de debugging (re­so­lu­ción de errores). Los bloques parciales in­di­vi­dua­les, de­no­mi­na­dos módulos, se pueden probar por separado antes de vi­n­cu­lar­los po­s­te­rio­r­me­n­te a una apli­ca­ción conjunta.
+                    </article>
+        </details>
+        
+            <br>
+
+
+    <h3>Programación declarativa</h3>
+    
+        <br>
+    
+    <article>
+        De forma paralela a la evolución co­n­ti­nua­da del hardware y el software, con el enfoque de­cla­ra­ti­vo se de­sa­rro­lló un paradigma al­te­r­na­ti­vo para la pro­gra­ma­ción de código. El principio fu­n­da­me­n­tal de la pro­gra­ma­ción de­cla­ra­ti­va radica en la de­s­cri­p­ción del resultado final que se busca. Por lo tanto, en primera línea se encuentra el “qué” del resultado y no el “cómo” de los pasos que llevan a la solución, como es el caso en la pro­gra­ma­ción im­pe­ra­ti­va. Esto provoca que el código de la pro­gra­ma­ción de­cla­ra­ti­va sea más difícil de co­m­pre­n­der debido al alto grado de ab­s­tra­c­ción, aunque resulta muy corto y preciso.
+    </article>
+        
+        <br>
+        
+        <p>
+            Dentro de los subtipos del paradigma de pro­gra­ma­ción de­cla­ra­ti­va, existen más di­fe­re­n­cias que dentro del estilo im­pe­ra­ti­vo. Asimismo, su de­fi­ni­ción y cla­si­fi­ca­ción no es siempre exacta. Los dos enfoques más im­po­r­ta­n­tes del paradigma de pro­gra­ma­ción de­cla­ra­ti­va son la pro­gra­ma­ción funcional y la lógica.
+        </p>
+
+<br>
+
+                <details>
+            <summary>Programación funcional</summary>
+                <br>
+                    <p>
+                        Las funciones existen en cualquier lenguaje de programación estándar. Sin embargo, los enfoques funcionales del desarrollo de software cuentan con funciones de una clase especial: 
+                     </p>  
+                     
+                     <br> 
+                     
+                     <p>Un programa de programación funcional consta de llamadas de función concatenadas en las que cada parte del programa se interpreta como una función. En este sentido, las funciones dentro de la programación funcional pueden adoptar distintas “estructuras”. Por ejemplo, se pueden vincular entre sí como datos o se pueden utilizar en forma de parámetros. Asimismo, se pueden utilizar como resultados de función. En contraposición, el paradigma se ocupa de que no haya asignaciones independientes de valores.
+                     </p>
+                      
+                        <br>
+                        
+                     <p>Los subtipos de la programación declarativa son muy importantes para la informática en general y al mismo tiempo cuentan con aplicaciones muy versátiles. El tratamiento especial de funciones permite a los programadores que trabajan de forma funcional componer y aplicar nuevas normas de cálculo de gran alcance a partir de funciones
+                    </p>
+        </details>
+<br>
+
+        <details>
+            <summary>programación lógica</summary>
+                <br>
+                    <article>
+                        El paradigma de software lógico, de­no­mi­na­do también como pro­gra­ma­ción pre­di­ca­ti­va, se basa en la lógica ma­te­má­ti­ca. En lugar de una sucesión de in­s­tru­c­cio­nes, un software pro­gra­ma­do según este principio contiene un conjunto de pri­n­ci­pios que se pueden entender como una re­co­pi­la­ción de hechos y su­po­si­cio­nes. Todas las so­li­ci­tu­des al programa se procesan de forma que el in­té­r­pre­te recurre a estos pri­n­ci­pios y les aplica reglas definidas pre­via­me­n­te para alcanzar el resultado deseado.
+                    </article>
+        </details>
+
+
+            </ul>
+    </section>
+            <br>
+    <!--Conceptos basicos Cliente-Servidor-->
+    <section class="contenido">
+         
+        <h2 id="Cliente-Servidor">Conceptos basicos de la estructura Cliente-Servidor
+        </h2> 
+            <br>
+                <img src="Image/Desarrollo Web/Cliente-Servidor.jpg" alt="" width="350" /> <br>
+            <br>
+        <article>
+            Arquitectura cliente-servidor es una forma de organizar un sistema informático en el que los dispositivos conectados se dividen en dos grupos: clientes y servidores. Los clientes, como computadoras personales o dispositivos móviles, solicitan servicios a los servidores, como servidores web o bases de datos. Los servidores satisfacen las solicitudes de los clientes proporcionándoles recursos y/o información.
+
+        </article>
+            <br>
+        
+        <h3>
+            Componentes de la Arquitectura Cliente-Servidor
+        </h3>
+            <br>
+        
+            <p>
+                La Arquitectura Cliente-Servidor es un concepto fundamental en el mundo de la informática. Esta configuración está compuesta por dos componentes principales: el <strong>cliente</strong> y el <strong>servidor</strong>.
+            </p>
+                <br>
+                
+        <ul>
+            <li>Cliente:</li>
+                <br>
+                    <article>
+                        El cliente es un dispositivo conectado a una red, cuya función es realizar peticiones al servidor. Estas peticiones pueden ser consultas o solicitudes de servicios, tales como la descarga de archivos o la transmisión de datos. Normalmente, los clientes se encuentran en dispositivos como PCs, teléfonos móviles y tabletas, entre otros.
+                    </article>
+        </details>
+                <br>
+                
+        
+            <li>Servidor:</li>
+                <br>
+                    <article>
+                        El servidor es el encargado de responder a las peticiones del cliente y proporcionar los servicios que se le hayan solicitado. Un servidor también puede almacenar y administrar información para su posterior acceso por parte del usuario. Suelen trabajar con sistemas operativos como Linux o Windows Server.
+                    </article>
+                        <br>
+            
+        </ul>
+
+        <!--Ventajas-->
+        <details>
+            <summary>Ventajas:</summary>
+                <br>
+                    <ul>
+                        
+                        <li>Mayor escalabilidad:</li>
+                        
+                            <p>
+                                La capacidad de agregar más servidores a la red significa que puede manejar cargas de trabajo mucho mayores sin disminuir el rendimiento.
+                            </p>
+                            
+                                <br>
+                                
+                        <li>Menos costes:</li>
+                        
+                            <p>
+                                 Al utilizar un único servidor para proporcionar servicios a varios usuarios, los costes son menores.
+                            </p>
+                            
+                                <br>
+                                
+                        <li>Mejor seguridad:</li>
+                        
+                            <p>
+                                Los datos se almacenan en servidores centralizados. En consecuencia, es más fácil protegerlos contra intrusiones externas.
+                            </p>
+                            
+                                <br>
+                                
+                        <li>Mayor fiabilidad:</li>
+                        
+                            <p>
+                                El hecho de que todos los recursos estén centralizados significa que si hay algún problema con un solo servidor, no afectará el funcionamiento del sistema completo.
+                            </p>
+                            
+                                <br>
+                        <li>Accesibilidad remota:</li>
+                            <p>
+                                Los usuarios pueden acceder a los recursos y servicios desde cualquier lugar con conexión a Internet.
+                            </p>
+                            
+                                <br>
+                        
+                    </ul>
+        </details>
+            <br>
+        <!--Desventajas-->
+        <details>
+            <summary>Desventajas:</summary>
+                <br>
+                    <ul>
+                        <li>Vulnerabilidad a ataques externos:</li>
+                            <p>
+                                Al estar todos los recursos concentrados en un solo lugar, puede ser más fácil para los hackers atacarlos todos a la vez.
+                            </p>
+                                <br>
+                                
+                        <li>Dependencia del ancho de banda:</li>
+                            <p>
+                                Si el ancho de banda es bajo o inestable, el rendimiento general del sistema será menor.
+                            </p>
+                                <br>
+
+                        <li>Dependecia de actualizaciones:</li>
+                            <p>
+                                Necesidad de mantener parches y actualizaciones constantemente para asegurarse de contar con las últimas versiones de software disponibles.
+                            </p>
+                                <br>
+                    </ul>
+        </details>
+            <br>
+        <!--Ejemplo Cliente-Servidor-->    
+        <details>
+            <summary>Ejemplos Cliente-Servidor:</summary>
+                <br>
+                    <ul>
+
+                        <li>Correo Electronico:</li>
+                            <p>
+                                En el caso del correo electrónico, el usuario utiliza su dispositivo cliente para conectarse al servidor que almacena todos los mensajes enviados y recibidos. El usuario puede leer y escribir mensajes desde su dispositivo sin necesidad de acceder directamente al servidor.
+                            </p>
+                                <br>
+
+                        <li>Navegación Web:</li>
+                            <p>
+                                La navegación web es un buen ejemplo de la arquitectura cliente-servidor donde el navegador web actúa como el dispositivo cliente para conectarse a los servidores donde se alojan las páginas web. Una vez que se establece la conexión, el navegador envía peticiones al servidor solicitando contenido que luego se muestra en pantalla.
+                            </p>
+                                <br>
+
+                        <li>Impresión Remota:</li>
+                            <p>
+                                Del mismo modo, es posible imprimir documentos desde cualquier lugar del mundo mediante la configuración de impresoras remotas. Lo que es posible gracias a la arquitectura cliente-servidor. Esta configuración permite que los documentos sean enviados directamente desde tu equipo hasta la impresora remota sin tener que instalar software adicional en tu equipo.
+                            </p>
+                                <br> 
+
+                        <li>Compartición Remota:</li>
+                            <p>
+                                La compartición de archivos también forma parte del concepto de arquitectura Cliente-Servidor. Los usuarios acceden desde sus equipos a los archivos compartidos alojados en determinado servidor sin necesidad de transferir físicamente dichos archivos entre ellos mismos.
+                            </p>
+                                <br>
+
+                    </ul>
+        </details>
+
+
+
+
+                
+    </section>
+            <br>
+    <!--Arquitectura de Tres Capas-->
+    <section class="contenido">
+        
+        <h2 id="Tres capas">Arquitectura de Tres capas: Dato, Negocio, Presentación</h2>
+            <br>
+            <img src="Image/Desarrollo Web/Tres capas.jpg" width="350"> <br> <br>
+            
+        <article>
+            La arquitectura de 3 capas es un patrón de diseño de software que ofrece un enfoque estructurado para organizar y desarrollar aplicaciones web. Consiste en tres capas o niveles distintos: la capa de presentación, la capa de lógica de negocios y la capa de almacenamiento de datos. Esta arquitectura ofrece varios beneficios, incluyendo modularidad, escalabilidad y flexibilidad, lo que contribuye a la efectividad y eficiencia general del desarrollo de software.
+        </article>
+            <br>
+            
+        <h3>Compresión de los Componentes de la Arquitectura de Tres Capas</h3>
+            <br>
+            
+            <ol>
+                <li><h3>Caja de Presentación:</h3></li>
+                    <aside>
+                        La capa de presentación es responsable de interactuar directamente con el usuario. Incluye los componentes de la interfaz de usuario que muestran información y recopilan entradas del usuario. Estos componentes pueden implementarse utilizando diversas tecnologías, como HTML, CSS y JavaScript.
+                    </aside>
+                        <br>
+            
+                <li><h3>Capa de Lógica de Negocios:</h3></li>
+                    <aside>
+                        La capa de lógica de negocios actúa como la capa intermedia en la arquitectura de 3 capas. Contiene la lógica de la aplicación y las reglas que gobiernan el comportamiento de la aplicación web. Esta capa procesa y valida las entradas del usuario, realiza cálculos e implementa la funcionalidad de la aplicación. Al separar la lógica principal de la capa de presentación, esta capa asegura la reutilización del código, su mantenibilidad y facilidad de pruebas.
+                    </aside>
+                        <br>
+            
+                <li><h3>Capa de Almacenamiento de Datos:</h3></li>
+                    <aside>
+                        La capa de almacenamiento de datos, también conocida como la capa de persistencia, es responsable de gestionar el almacenamiento y la recuperación de datos de la base de datos. Maneja tareas como crear, actualizar, eliminar y consultar datos. Esta capa asegura la integridad de los datos y proporciona una interfaz entre la capa de lógica de negocios y el sistema de bases de datos subyacente.
+                    </aside>
+                        <br>
+            
+            
+            </ol>
+        
+        
+    </section>
+            <br>
+    <!--Sitio Web-->    
+    <section class="contenido">
+        
+    <h2 id="Sitio Web">Sitio Web</h2>       
+        <br>
+        
+        <img src="Image/Desarrollo Web/Sitio Web.jpg" alt="" width="350"/>
+        <br> <br>
+        
+        <article>
+             
+
+            Un sitio web es un conjunto de páginas y contenido multimedia interconectados y accesibles a través de internet. Los componentes básicos de un sitio web incluyen HTML (Hypertext Markup Language), que permite crear la estructura de las páginas; CSS (Cascading Style Sheets), que define los estilos y la apariencia visual; y JavaScript, que proporciona funcionalidades interactivas y dinámicas. El navegador interpreta el código HTML para mostrar una versión gráfica de las páginas web.<br> <br>
+
+            Existen diversos tipos de sitios web, como informativos, comerciales, personales, blogs, foros, entre otros. Cada tipo de sitio tiene sus propias características y objetivos específicos. Por ejemplo, un sitio web comercial busca promocionar y vender productos o servicios, mientras que un sitio web informativo tiene como objetivo principal proporcionar información útil y relevante a los visitantes. Es importante destacar la diferencia entre un sitio web y una página web; un sitio web es un conjunto de páginas web interconectadas.
+        </article>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    </section>
+    
+    </body>
+    
+    
+</html>

@@ -1,0 +1,150 @@
+/* Variables de Paleta de Colores */
+:root {
+    --purple-main: #6A0DAD;
+    --purple-dark: #4B0082;
+    --purple-light: #E6E6FA;
+    --black: #111111;
+    --white: #FFFFFF;
+    --gray-bg: #F4F4F9;
+    --gray-border: #DDDDDD;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--gray-bg);
+    color: var(--black);
+}
+
+.hidden { display: none !important; }
+.active { display: block !important; }
+.bold { font-weight: bold; }
+
+/* Contenedor Login */
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-card {
+    width: 350px;
+    text-align: center;
+}
+
+/* Layout Principal */
+#main-app {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: var(--black);
+    color: var(--white);
+    padding: 20px;
+}
+
+.sidebar h2 {
+    color: var(--purple-main);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    background: transparent;
+    color: var(--white);
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 4px;
+    transition: 0.3s;
+}
+
+.sidebar button:hover {
+    background-color: var(--purple-main);
+}
+
+.content {
+    flex-grow: 1;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+/* Tarjetas y Formularios */
+.card {
+    background-color: var(--white);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-top: 20px;
+    border-top: 4px solid var(--purple-main);
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--gray-border);
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--purple-main);
+}
+
+/* Botones */
+.btn-primary {
+    background-color: var(--purple-main);
+    color: var(--white);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+.btn-primary:hover { background-color: var(--purple-dark); }
+
+.total-box {
+    background-color: var(--purple-light);
+    padding: 15px;
+    text-align: right;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.error-msg {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+}

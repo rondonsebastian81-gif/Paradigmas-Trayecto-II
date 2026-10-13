@@ -1,0 +1,106 @@
+/* =========================================
+   ESTILOS GENERALES (Fondo y tipografía)
+   ========================================= */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+p, li {
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+/* =========================================
+   ESTILOS EXCLUSIVOS PARA LA PÁGINA DE POO
+   ========================================= */
+.poo-header {
+    background-color: #7a1fa2;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+}
+
+.poo-header h1 {
+    margin: 0;
+    font-style: italic;
+    font-size: 24px;
+}
+
+/* Contenedor principal forzado en bloque para evitar desconfiguración */
+.poo-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: block !important; 
+}
+
+/* Tarjetas de contenido */
+.poo-card {
+    background-color: white;
+    border-top: 3px solid #7a1fa2;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.poo-card h2 {
+    color: #7a1fa2;
+    margin-top: 0;
+    font-size: 20px;
+}
+
+.poo-card h3 {
+    color: #4a4a4a;
+    font-size: 18px;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 5px;
+    margin-top: 25px;
+}
+
+/* Estilo oscuro para las cajas de código (tipo consola) */
+.poo-card pre {
+    background-color: #2d2d2d;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    font-size: 14px;
+    border-left: 4px solid #7a1fa2;
+    margin-top: 10px;
+}
+
+.poo-card code {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Estructura para el área del video */
+.poo-card.video-section {
+    text-align: center;
+}
+
+.video-placeholder {
+    width: 100%;
+    max-width: 640px;
+    height: 360px;
+    background-color: #eaeaea;
+    border: 2px dashed #7a1fa2;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto 0;
+    color: #666;
+    font-weight: bold;
+}
