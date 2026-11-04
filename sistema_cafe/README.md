@@ -72,7 +72,7 @@ Si tu MySQL tiene contraseña, edita `config/config.php` y colócala en `DB_PASS
 - **Proveedores:** alta, edición de contacto y desactivación.
 - **Clientes:** alta, edición de contacto y desactivación.
 - **Compras:** registro de compras por tipo de café (kg y precio en USD).
-- **Ventas:** registro de ventas en Bs con financing hasta 7 días.
+- **Ventas:** registro de ventas en Bs con financiamiento hasta 7 días.
 - **Reportes:** ganancias diarias/semanales por negocio y general, cuentas por cobrar, inventario y compras.
 - **Usuarios y Configuración:** gestión de accesos y tasa de cambio.
 
