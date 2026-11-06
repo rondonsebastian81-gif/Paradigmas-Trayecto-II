@@ -16,56 +16,67 @@
       : "días anteriores → actualice";
   }
 
-  function pintarEstacion() {
+  function pintarEstacion(mensaje) {
     const c = estado.estacion.config;
     ORC.$("vista-estacion").innerHTML =
       "<h1 class='titulo'>Surtir estación</h1>" +
-      "<p class='subtitulo'>Configuración diaria de la distribución. Campos obligatorios y validados.</p>" +
+      "<p class='subtitulo'>Configuración diaria del combustible. Campos obligatorios y validados.</p>" +
       "<div class='grilla-stats'>" +
       "<div class='stat'><div class='n'>" + stateFuel() + "</div><div class='t'>L para el día " + esc(c.fecha) + "</div></div>" +
       "</div>" +
       "<div class='tarjeta'>" +
       "<div class='filtros'>" +
       "<div class='campo'><label class='etiqueta'>Cantidad de combustible del día (L) *</label>" +
-      "<input id='c-combustible' type='number' min='1' value='" + c.combustible + "'></div>" +
+      "<input id='c-combustible' type='number' min='0' max='1000000' step='0.01' value='" + c.combustible + "'></div>" +
       "<div class='campo'><label class='etiqueta'>Hora de inicio *</label>" +
       "<input id='c-inicio' type='time' value='" + esc(c.horaInicio) + "'></div>" +
       "<div class='campo'><label class='etiqueta'>Hora de cierre *</label>" +
       "<input id='c-cierre' type='time' value='" + esc(c.horaCierre) + "'></div>" +
       "</div>" +
       "<div class='filtros'>" +
-      "<div class='campo'><label class='etiqueta'>Litros por Moto *</label>" +
-      "<input id='c-moto' type='number' min='1' step='0.5' value='" + c.cantidadMoto + "'></div>" +
-      "<div class='campo'><label class='etiqueta'>Litros por Automóvil *</label>" +
-      "<input id='c-auto' type='number' min='1' step='0.5' value='" + c.cantidadAutomovil + "'></div>" +
-      "<div class='campo'><label class='etiqueta'>Litros por Camión *</label>" +
-      "<input id='c-camion' type='number' min='1' step='0.5' value='" + c.cantidadCamion + "'></div>" +
-      "<div class='campo'><label class='etiqueta'>Tiempo de asignación (segundos) *</label>" +
-      "<input id='c-tiempo' type='number' min='10' value='" + c.tiempoAsignacionSeg + "'></div>" +
+      "<div class='campo'><label class='etiqueta'>Máximo de litros por Moto *</label>" +
+      "<input id='c-moto' type='number' min='0.5' max='1000' step='0.01' value='" + c.cantidadMoto + "'></div>" +
+      "<div class='campo'><label class='etiqueta'>Máximo de litros por Automóvil *</label>" +
+      "<input id='c-auto' type='number' min='0.5' max='1000' step='0.01' value='" + c.cantidadAutomovil + "'></div>" +
+      "<div class='campo'><label class='etiqueta'>Máximo de litros por Camión *</label>" +
+      "<input id='c-camion' type='number' min='0.5' max='1000' step='0.01' value='" + c.cantidadCamion + "'></div>" +
       "</div>" +
-      "<div id='c-errores'></div>" +
+      "<p class='nota'>El cliente elige cuántos litros solicitar hasta el máximo de su tipo de vehículo. " +
+      "La hora de recogida se reparte automáticamente entre la hora de inicio y la de cierre.</p>" +
+      "<div id='c-errores'>" + (mensaje || "") + "</div>" +
       "<button id='c-guardar' class='boton'>Guardar configuración</button>" +
       "</div>";
     ORC.$("c-guardar").addEventListener("click", guardarEstacion);
   }
 
-  function guardarEstacion() {
-    const config = estado.estacion.config;
-    config.combustible = Number(ORC.$("c-combustible").value);
-    config.horaInicio = ORC.$("c-inicio").value;
-    config.horaCierre = ORC.$("c-cierre").value;
-    config.cantidadMoto = Number(ORC.$("c-moto").value);
-    config.cantidadAutomovil = Number(ORC.$("c-auto").value);
-    config.cantidadCamion = Number(ORC.$("c-camion").value);
-    config.tiempoAsignacionSeg = Number(ORC.$("c-tiempo").value);
-    config.fecha = estado.estacion.fechaActual();
+  /* Lee el formulario sin tocar la configuración vigente. Así, si algún
+     valor es inválido, la estación conserva los datos anteriores. */
+  function leerValores() {
+    return {
+      fecha: estado.estacion.fechaActual(),
+      combustible: ORC.$("c-combustible").value,
+      horaInicio: ORC.$("c-inicio").value,
+      horaCierre: ORC.$("c-cierre").value,
+      cantidadMoto: ORC.$("c-moto").value,
+      cantidadAutomovil: ORC.$("c-auto").value,
+      cantidadCamion: ORC.$("c-camion").value,
+      tiempoAsignacionSeg: estado.estacion.config.tiempoAsignacionSeg
+    };
+  }
 
-    const errores = config.validar();
+  function guardarEstacion() {
+    // Se valida sobre un borrador: si hay errores (por ejemplo un número
+    // negativo) no se modifica nada ni se guarda nada.
+    const borrador = new ConfiguracionDistribucion();
+    Object.assign(borrador, leerValores());
+    const errores = borrador.validar();
     if (!listarErrores(errores, ORC.$("c-errores"))) return;
+
+    borrador.normalizar();
+    Object.assign(estado.estacion.config, borrador);
     guardar();
-    ORC.$("c-errores").innerHTML = "<p class='aviso-ok'>Configuración guardada para el día " +
-      config.fecha + ".</p>";
-    pintarEstacion();
+    pintarEstacion("<p class='aviso-ok'>Configuración guardada para el día " +
+      esc(estado.estacion.config.fecha) + ".</p>");
   }
 
   ORC.pintores.estacion = pintarEstacion;

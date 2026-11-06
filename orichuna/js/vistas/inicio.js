@@ -23,7 +23,8 @@
       "<p><b>Clases auxiliares:</b> <code>Validador</code> (validación de datos), " +
       "<code>FabricaVehiculos</code> (crea el subtipo según el tipo elegido), " +
       "<code>ConfiguracionDistribucion</code>, <code>Ticket</code>, " +
-      "<code>EstacionServicio</code> y <code>Almacenamiento</code> (guarda todo en el navegador).</p>" +
+      "<code>EstacionServicio</code> y <code>Almacenamiento</code> (persiste el estado en " +
+      "MySQL/MariaDB mediante la API PHP; usa el navegador como respaldo si no hay servidor).</p>" +
       "</div>";
   }
 
@@ -38,6 +39,7 @@
     const cancelados = est.tickets.filter(function (t) {
       return t.estatus === "cancelado" && aISO(t.fecha) === hoy;
     });
+    const pendientes = est.solicitudesPendientes();
 
     ORC.$("vista-inicio").innerHTML =
       "<h1 class='titulo'>Inicio</h1>" +
@@ -46,20 +48,26 @@
         ? "<div class='aviso-bloqueo'>La configuración corresponde al día " +
           esc(est.config.fecha) + ". Actualícela en el módulo Surtir estación.</div>"
         : "") +
+      (!est.config.hayCombustible()
+        ? "<div class='aviso-bloqueo'>No hay litros disponibles. Repón combustible en " +
+          "«Surtir estación» para poder despachar solicitudes.</div>"
+        : "") +
       "<div class='grilla-stats'>" +
       "<div class='stat'><div class='n'>" + est.config.combustible + "</div><div class='t'>L de combustible restante</div></div>" +
       "<div class='stat'><div class='n'>" + est.turnosRestantes() + "</div><div class='t'>Turnos disponibles (de 20)</div></div>" +
+      "<div class='stat'><div class='n'>" + pendientes.length + "</div><div class='t'>Solicitudes por despachar</div></div>" +
       "<div class='stat'><div class='n'>" + aceptados.length + "</div><div class='t'>Tickets aceptados hoy</div></div>" +
       "<div class='stat'><div class='n'>" + cancelados.length + "</div><div class='t'>Tickets cancelados hoy</div></div>" +
       "<div class='stat'><div class='n'>" + est.totalCombustibleAsignado() + "</div><div class='t'>L asignados en total</div></div>" +
       "</div>" +
       "<div class='tarjeta'>" +
       "<h3>Estación hoy</h3>" +
-      "<p>Horario de asignación: <b>" + esc(est.config.rangoHorario()) + "</b> · " +
+      "<p>Horario de recogida: <b>" + esc(est.config.rangoHorario()) + "</b> · " +
       (est.config.enHorario() ? "en horario" : "fuera de horario") + ".</p>" +
-      "<p>Litros por tipo: Moto " + est.config.cantidadMoto + " L · Automóvil " +
+      "<p>Litros máximos por tipo: Moto " + est.config.cantidadMoto + " L · Automóvil " +
       est.config.cantidadAutomovil + " L · Camión " + est.config.cantidadCamion + " L.</p>" +
-      "<p>Tiempo límite de asignación: " + est.config.tiempoAsignacionSeg + " segundos.</p>" +
+      "<p>Los clientes solicitan su cupo y el personal lo confirma en el módulo " +
+      "<b>Solicitudes de cupo</b>.</p>" +
       "</div>" +
       pooCaja();
   }

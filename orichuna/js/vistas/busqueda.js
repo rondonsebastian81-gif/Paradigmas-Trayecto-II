@@ -16,7 +16,7 @@
       "<div class='tarjeta'>" +
       "<div class='filtros'>" +
       "<div class='campo'><label class='etiqueta'>Código de verificación o placa</label>" +
-      "<input id='b-texto' class='entrada' placeholder='891 o ABC123'></div>" +
+      "<input id='b-texto' class='entrada' maxlength='8' placeholder='891 o ABC123'></div>" +
       "</div>" +
       "<button id='b-buscar' class='boton'>Buscar</button>" +
       "<div id='b-resultado'></div>" +
@@ -32,6 +32,11 @@
     ORC.$("b-resultado").innerHTML = "";
     if (!texto) {
       ORC.$("b-resultado").innerHTML = "<p class='nota'>Escriba un código o una placa.</p>";
+      return;
+    }
+    if (!/^(\d{3}|(?=[A-Za-z0-9]*[A-Za-z])[A-Za-z0-9]{3,8})$/.test(texto)) {
+      ORC.$("b-resultado").innerHTML = "<p class='nota'>Escriba un código de 3 dígitos " +
+        "(001–999) o una placa de 3 a 8 caracteres que combine letras y números.</p>";
       return;
     }
     const lista = estado.estacion.buscar(texto);

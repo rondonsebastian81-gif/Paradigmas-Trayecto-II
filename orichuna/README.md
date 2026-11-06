@@ -1,11 +1,40 @@
 # ORICHUNA.CA — Sistema de Asignación de Cupos y Turnos Vehiculares
 
-Aplicación web (**HTML + CSS + JavaScript** puro, sin servidor) que automatiza la
+Aplicación web (**HTML + CSS + JavaScript** puro) que automatiza la
 distribución de combustible subsidiado: registro de usuarios, configuración diaria
-de la estación, asignación de vehículos con **temporizador de 3 minutos**, tickets
+de la estación, **solicitud de cupo por parte del cliente** con elección de litros y
+hora de recogida, **despacho confirmado por el administrador/empleado**, tickets
 digitales con turno y código de verificación únicos, reportes y búsqueda.
 
+Los datos se guardan en una base de datos **MySQL / MariaDB** a través de una
+pequeña API en **PHP** (incluida en `api/`). Si esa API no está disponible, la app
+sigue funcionando y guarda en el navegador (`localStorage`) como respaldo.
+
+## Documentación de estudio
+
+- `Documentacion_ORICHUNA.pdf` — documento completo (42 páginas): arquitectura,
+  modelo de datos, SQL, API, POO, validaciones, flujos, preguntas de repaso y ejercicios.
+- `Documentacion_ORICHUNA.md` — la misma documentación en Markdown, para editar.
+- `README.md` — esta guía rápida.
+
 ## Cómo abrirla
+
+### Opción A — Con base de datos real (recomendado)
+
+Requiere **XAMPP** (Apache + MySQL/MariaDB + PHP).
+
+1. Copia la carpeta `orichuna` dentro de `C:\xampp\htdocs\`.
+2. Abre el panel de XAMPP y arranca **Apache** y **MySQL**.
+3. Crea la base de datos una sola vez abriendo en el navegador:
+   <http://localhost/orichuna/api/instalar.php>
+   (debe responder `OK: base de datos 'orichuna' lista`).
+4. Entra a la aplicación en <http://localhost/orichuna/>.
+
+Los datos quedan en la base `orichuna` y se conservan aunque cambies de navegador
+o borres la caché. Si tus credenciales de MySQL no son las de XAMPP por defecto
+(usuario `root` sin contraseña), ajústalas en `api/config.php`.
+
+### Opción B — Sin servidor (solo navegador)
 
 1. Doble clic en `index.html` (o ábrela con cualquier navegador: Chrome, Edge, etc.).
 2. Los datos se guardan en el propio navegador (localStorage), no necesitan internet.
@@ -37,13 +66,17 @@ código en su correo—, **iniciar sesión** con su correo/teléfono y código, 
   (Administrador / Empleado / Cliente). Al agregar, la cuenta se **verifica por
   correo y/o teléfono** con un código.
 - **Surtir estación (Administrador/Empleado):** combustible del día, hora de inicio
-  y cierre, litros por tipo de vehículo y tiempo límite de asignación.
-- **Asignación (todos):** registro del vehículo (tipo, marca, modelo, placa, color)
-  con validación total y **temporizador regresivo** visible; al agotarse el tiempo
-  el cupo se cancela.
+  y cierre, y **máximo de litros por tipo de vehículo**.
+- **Mi cupo de gasolina (Cliente):** el cliente registra su vehículo, elige cuántos
+  litros desea (hasta el máximo de su tipo) y envía la solicitud. Ve su turno,
+  placa, litros solicitados, estatus y **hora de recogida**, pero nunca el stock ni
+  cuántos cupos quedan. Si no hay litros, aparece el aviso correspondiente.
+- **Solicitudes de cupo (Administrador/Empleado):** lista de solicitudes pendientes
+  con hora de recogida y litros. El personal pulsa **Despachar** para confirmar
+  (descuenta el combustible) o **Cancelar** con un motivo.
 - **Ticket digital:** estación y fecha, turno aleatorio único (1-20), datos del
-  vehículo, estatus (Aceptado = tipo + litros asignados / Cancelado = motivo) y
-  **código de verificación único de 3 dígitos**.
+  vehículo, hora de recogida, estatus (Pendiente / Aceptado = litros despachados /
+  Cancelado = motivo) y **código de verificación único de 3 dígitos**.
 - **Tickets:** tabla con todos los comprobantes generados.
 - **Reportes:** por tipo de vehículo / marca / modelo con total de combustible
   asignado, y por estatus con detalle.
@@ -62,13 +95,25 @@ y no es viable sin servidor.
 
 ## Reglas de negocio
 
-- Un solo **turno por día** (1-20): al completarse 20 se rechazan nuevas solicitudes.
+- Un solo **cupo por cliente y por día** (turno 1-20): al completarse 20 se rechazan
+  nuevas solicitudes.
 - El código de verificación (1-999) **nunca se repite** entre todos los tickets.
-- El combustible se descuenta al confirmar; si no alcanza, el ticket queda Cancelado
-  con motivo "Combustible insuficiente".
-- Fuera del horario configurado no se permite asignar.
-- Todas las validaciones: cédula, correo, teléfono, letras (marca/color),
-  alfanumérico (modelo), placa de 6-8 caracteres.
+- El combustible se descuenta **solo cuando el personal confirma el despacho**; si
+  no alcanza, la solicitud sigue pendiente y se avisa al personal.
+- Si el stock está en 0, el cliente ve **"No hay litros disponibles"** y no puede
+  enviar la solicitud.
+- El cliente elige los litros dentro del **máximo de su tipo de vehículo** y nunca
+  ve el inventario ni cuántos turnos quedan.
+- Fuera del horario configurado no se permiten nuevas solicitudes.
+- **Validación antes de guardar:** si un campo es inválido, la operación completa se
+  rechaza y no deja valores a medias. El combustible del día va de 0 a 1 000 000 L;
+  los máximos por vehículo, de 0,5 a 1000 L (máximo 2 decimales); las horas son
+  `HH:MM` con inicio anterior al cierre.
+- Cédula normalizada (`V-12345678`), placa de 6-8 caracteres que combine letras y
+  números, correo con formato válido y teléfono de 7 a 15 dígitos. Los textos se
+  limitan al tamaño de su columna.
+- La API repite las reglas: responde **HTTP 422** ante datos inválidos (incluidos
+  negativos) y **HTTP 409** ante cédula, correo, teléfono o código duplicado.
 
 ## Estructura (POO)
 
@@ -76,12 +121,15 @@ y no es viable sin servidor.
 js/modelos.js          → Clases y reglas (no toca la pantalla)
 js/nucleo.js           → Núcleo de la interfaz: estado, utilidades, login,
                          navegación, modal de verificación y EmailJS.
-js/vistas/*.js         → Un módulo "vista" por pantalla: inicio, asignación
-                         (con temporizador), tickets, surtir estación,
-                         usuarios, reportes y búsqueda. Cada una registra su
-                         pintor en el objeto global ORC.pintores.
+js/vistas/*.js         → Un módulo "vista" por pantalla: inicio, mi cupo
+                         (cliente), solicitudes de cupo (personal), tickets,
+                         surtir estación, usuarios, reportes y búsqueda.
+                         Cada una registra su pintor en ORC.pintores.
 index.html             → Estructura
 css/estilos.css        → Diseño
+api/                   → API PHP + esquema MySQL/MariaDB (persistencia)
+Documentacion_ORICHUNA.md   → Documentación técnica y guía de estudio (fuente)
+Documentacion_ORICHUNA.pdf  → La misma documentación lista para imprimir
 ```
 
 ### Cómo se conectan los módulos
@@ -93,8 +141,8 @@ css/estilos.css        → Diseño
 - Cada vista en `js/vistas/*.js` es una función anónima controlada (IIFE) que
   usa la API de `ORC` y se registra con: `ORC.pintores["su-clave"] = pintor`.
 - La navegación (`navegar()`) muestra la vista y llama a `ORC.pintores[vista]()`.
-- La asignación además registra `ORC.detenerTemporizador` para que el núcleo
-  pueda detener el cronómetro al salir o reiniciar la demostración.
+- `ORC.recargarEstado()` vuelve a leer el servidor para que el cliente o el personal
+  vean los cambios hechos en otra sesión (botones "Actualizar").
 
 ### Clases, herencia y polimorfismo
 
@@ -110,13 +158,31 @@ css/estilos.css        → Diseño
   - **Camion extends Vehiculo** — devuelve el litraje de camión.
   - *Polimorfismo:* el mismo método se comporta distinto según el subtipo.
 - **FabricaVehiculos** — crea el subtipo correcto según el tipo elegido.
-- **ConfiguracionDistribucion** — datos del día (litros, horario, tiempos).
-- **Ticket** — turno, código, vehículo, estatus y motivo; `aceptar()` descuenta
-  combustible y `cancelar(motivo)` cierra el cupo.
+- **ConfiguracionDistribucion** — datos del día (litros, horario, máximos) y
+  cálculo de la hora de recogida de cada turno.
+- **Ticket** — turno, código, vehículo, hora de recogida, solicitante, estatus y
+  motivo; `aceptar()` valida y descuenta combustible (lo confirma el personal) y
+  `cancelar(motivo)` cierra la solicitud.
 - **EstacionServicio** — la estación completa: usuarios y tickets; se encarga de la
   unicidad de turnos y códigos, reportes, búsqueda y del acceso (login) por correo
   o teléfono de cuentas verificadas.
-- **Almacenamiento** — guarda y recupera todo en localStorage.
+- **Almacenamiento** — guarda y recupera todo el estado. Usa la API PHP
+  (`api/estado.php`, MySQL/MariaDB) y, si no está disponible, cae en `localStorage`.
+
+### Base de datos
+
+```
+api/config.php         → Host, puerto, nombre, usuario y clave de MySQL
+api/db.php             → Conexión PDO compartida
+api/estado.php         → API del estado: GET (leer), POST (guardar), DELETE (borrar)
+api/instalar.php       → Crea la base y las tablas ejecutando schema.sql
+api/schema.sql         → Tablas: usuario, vehiculo, ticket, configuracion, estado_app
+```
+
+El estado completo se envía y se recibe como JSON con la misma forma que producen
+`EstacionServicio.datosParaGuardar()` y `EstacionServicio.desdeDatos()`; la API lo
+descompone en las cinco tablas relacionales. La escritura se hace dentro de una
+transacción, así que una carga nunca deja la base a medias.
 
 La ficha "Modelo de clases" con este diagrama también está dentro de la
 aplicación, en el módulo **Inicio**.

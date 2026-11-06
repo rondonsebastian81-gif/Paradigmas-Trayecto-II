@@ -37,21 +37,21 @@
       "<h3>" + (editando ? "Modificar usuario" : "Agregar usuario") + "</h3>" +
       "<div class='filtros'>" +
       "<div class='campo'><label class='etiqueta'>Cédula *</label>" +
-      "<input id='u-cedula' class='entrada' placeholder='V-12345678' value='" +
+      "<input id='u-cedula' class='entrada' maxlength='20' placeholder='V-12345678' value='" +
       (editando ? esc(estado.usuarioEnEdicion.cedula) : "") + "'></div>" +
       "<div class='campo'><label class='etiqueta'>Nombre * (letras)</label>" +
-      "<input id='u-nombre' class='entrada' placeholder='Nombre' value='" +
+      "<input id='u-nombre' class='entrada' maxlength='80' placeholder='Nombre' value='" +
       (editando ? esc(estado.usuarioEnEdicion.nombre) : "") + "'></div>" +
       "<div class='campo'><label class='etiqueta'>Apellido * (letras)</label>" +
-      "<input id='u-apellido' class='entrada' placeholder='Apellido' value='" +
+      "<input id='u-apellido' class='entrada' maxlength='80' placeholder='Apellido' value='" +
       (editando ? esc(estado.usuarioEnEdicion.apellido) : "") + "'></div>" +
       "</div>" +
       "<div class='filtros'>" +
       "<div class='campo'><label class='etiqueta'>Correo electrónico * (verificado)</label>" +
-      "<input id='u-correo' class='entrada' placeholder='persona@correo.com' value='" +
+      "<input id='u-correo' class='entrada' maxlength='150' placeholder='persona@correo.com' value='" +
       (editando ? esc(estado.usuarioEnEdicion.correo) : "") + "'></div>" +
       "<div class='campo'><label class='etiqueta'>Teléfono * (verificado)</label>" +
-      "<input id='u-telefono' class='entrada' placeholder='0412-1234567' value='" +
+      "<input id='u-telefono' class='entrada' maxlength='30' placeholder='0412-1234567' value='" +
       (editando ? esc(estado.usuarioEnEdicion.telefono) : "") + "'></div>" +
       "<div class='campo'><label class='etiqueta'>Tipo de usuario *</label>" +
       "<select id='u-tipo'><option value='administrador'" +
@@ -137,12 +137,25 @@
     if (!datos.tipo) errores.push("Seleccione el tipo de usuario.");
     if (!listarErrores(errores, ORC.$("u-errores"))) return;
 
-    if (estado.usuarioEnEdicion) {
-      const resultado = estado.estacion.actualizarUsuario(
-        estado.usuarioEnEdicion.cedula, modelo);
+    const editando = estado.usuarioEnEdicion;
+    const duplicado = estado.estacion.buscarDuplicado(
+      modelo, editando ? editando.cedula : undefined);
+    if (duplicado) {
+      listarErrores([duplicado], ORC.$("u-errores"));
+      return;
+    }
+
+    if (editando) {
+      // Editar datos no debe des-verificar una cuenta que ya estaba verificada.
+      modelo.verificado = editando.verificado;
+      const resultado = estado.estacion.actualizarUsuario(editando.cedula, modelo);
       if (resultado) {
         listarErrores([resultado], ORC.$("u-errores"));
         return;
+      }
+      if (estado.usuario && estado.usuario.cedula === editando.cedula) {
+        estado.usuario = modelo;
+        ORC.$("chip-usuario").textContent = "Usuario: " + modelo.nombreCompleto();
       }
       estado.usuarioEnEdicion = null;
       guardar();
@@ -169,7 +182,7 @@
         usuario.verificado = true;
         const resultado = estado.estacion.agregarUsuario(usuario);
         if (resultado) {
-          alert(resultado);
+          listarErrores([resultado], ORC.$("u-errores"));
           return;
         }
         guardar();

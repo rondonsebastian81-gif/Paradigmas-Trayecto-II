@@ -275,6 +275,47 @@ textarea { resize: vertical; }
 .cronometro.urgente { color: var(--rojo); }
 .bloque-pendiente { border: 2px dashed var(--ambar); }
 
+/* ---------- Mi cupo de gasolina (cliente) ---------- */
+.cupo-cliente { max-width: 660px; margin: 0 auto; }
+.cupo-pendiente { border: 2px dashed var(--ambar); }
+.cupo-enc { display: flex; gap: 16px; align-items: center; margin-bottom: 14px; }
+.cupo-turno {
+  background: var(--ambar);
+  color: var(--azul-osc);
+  font-size: 36px;
+  font-weight: 900;
+  border-radius: 12px;
+  padding: 8px 16px;
+  min-width: 108px;
+  text-align: center;
+}
+.cupo-titulo h3 { margin: 0 0 6px; }
+.cupo-titulo p { margin: 0; }
+.cupo-datos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.cupo-dato {
+  background: #f7f9fc;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.cupo-dato span {
+  display: block;
+  color: var(--gris);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+.cupo-dato b { font-size: 20px; color: var(--azul-osc); }
+.cupo-vehiculo { margin: 8px 0; color: var(--gris); }
+.cupo-acciones { display: flex; gap: 10px; flex-wrap: wrap; }
+.barra-acciones { margin: 0 0 14px; }
+.acciones { white-space: nowrap; }
+
 /* ---------- Ticket ---------- */
 .ticket {
   max-width: 620px;

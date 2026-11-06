@@ -52,7 +52,8 @@
       "<h3>Reporte por estatus</h3>" +
       "<div class='filtros'>" +
       "<div class='campo'><label class='etiqueta'>Estatus</label>" +
-      "<select id='r-estatus'><option value='aceptado'>Aceptado</option>" +
+      "<select id='r-estatus'><option value='pendiente'>Pendiente</option>" +
+      "<option value='aceptado'>Aceptado</option>" +
       "<option value='cancelado'>Cancelado</option></select></div>" +
       "</div>" +
       "<button id='r-estatus-aplicar' class='boton'>Mostrar detalle</button>" +
@@ -98,17 +99,21 @@
     const lista = estado.estacion.reportePorEstatus(estatus);
     ORC.$("r-estatus-resultado").innerHTML = lista.length
       ? "<div class='tabla-wrapper'><table class='tabla'><thead><tr>" +
-        "<th>Turno</th><th>Fecha emisión</th><th>Vehículo</th><th>Placa</th>" +
+        "<th>Turno</th><th>Hora recogida</th><th>Fecha emisión</th><th>Vehículo</th><th>Placa</th>" +
         "<th>Estatus</th><th>Detalle</th></tr></thead><tbody>" +
         lista.map(function (t) {
+          const detalle = t.estatus === "aceptado"
+            ? esc(t.vehiculo.nombreTipo()) + " · " + t.combustible + " L despachados"
+            : t.estatus === "pendiente"
+              ? "Solicitud de " + t.combustible + " L sin despachar"
+              : esc(t.motivo);
           return "<tr><td class='num'>#" + dos(t.turno) + "</td>" +
+            "<td class='num'>" + esc(t.horaRecogida || "—") + "</td>" +
             "<td>" + formatearFecha(t.fecha) + "</td>" +
             "<td>" + esc(t.vehiculo.linea()) + "</td>" +
             "<td>" + esc(t.vehiculo.placa) + "</td>" +
             "<td><span class='chip chip-" + t.estatus + "'>" + t.estatus + "</span></td>" +
-            "<td>" + (t.estatus === "aceptado"
-              ? esc(t.vehiculo.nombreTipo()) + " · " + t.combustible + " L"
-              : esc(t.motivo)) + "</td></tr>";
+            "<td>" + detalle + "</td></tr>";
         }).join("") +
         "</tbody></table></div>"
       : "<p class='nota'>No hay tickets con estatus " + estatus + ".</p>";

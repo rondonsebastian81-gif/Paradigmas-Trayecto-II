@@ -30,10 +30,9 @@
     estacion: null,
     usuario: null,
     rol: null,
+    solicitante: null,
     ticketActual: null,
     resultadoActual: null,
-    intervaloTimer: null,
-    segundosRestantes: 0,
     modalDatos: null,
     usuarioEnEdicion: null,
     usuarioPendienteVerificar: null
@@ -41,6 +40,26 @@
 
   function guardar() {
     almacenamiento.guardar(estado.estacion);
+  }
+
+  /* Identificador del cliente. Los registrados usan su cédula; el acceso
+     público usa un token guardado en el navegador para que solo vea sus
+     propias solicitudes. */
+  const CLAVE_SOLICITANTE = "orichuna_solicitante_v1";
+
+  function solicitanteDe(usuario) {
+    if (usuario && usuario.cedula) return "C-" + usuario.cedula;
+    try {
+      let token = localStorage.getItem(CLAVE_SOLICITANTE);
+      if (!token || !/^P-[a-z0-9]{10,40}$/.test(token)) {
+        token = "P-" + Math.random().toString(36).slice(2) +
+          Math.random().toString(36).slice(2);
+        localStorage.setItem(CLAVE_SOLICITANTE, token);
+      }
+      return token;
+    } catch (e) {
+      return "P-" + String(Date.now()) + String(Math.random()).slice(2);
+    }
   }
 
   /* ---------- Envío real por EmailJS (con respaldo simulado) ---------- */
@@ -103,10 +122,13 @@
 
   function htmlTicket(t) {
     const aceptado = t.estatus === "aceptado";
+    const pendiente = t.estatus === "pendiente";
     const bloqueInfo = aceptado
       ? "Tipo de vehículo: <b>" + esc(t.vehiculo.nombreTipo()) +
-        "</b> · Combustible asignado: <b>" + t.combustible + " L</b>"
-      : "Motivo de cancelación: <b>" + esc(t.motivo) + "</b>";
+        "</b> · Combustible despachado: <b>" + t.combustible + " L</b>"
+      : pendiente
+        ? "Solicitud de <b>" + t.combustible + " L</b> pendiente de confirmación por el personal."
+        : "Motivo de cancelación: <b>" + esc(t.motivo) + "</b>";
     const chip = "<span class='chip chip-" + t.estatus + "'>" + t.estatus + "</span>";
     return "<div class='ticket'>" +
       "<div class='ticket-enc'>" +
@@ -120,6 +142,7 @@
       esc(t.vehiculo.color) + "</b> · Modelo: <b>" + esc(t.vehiculo.modelo) +
       "</b><br>Marca: <b>" + esc(t.vehiculo.marca) + "</b></p>" +
       "<p>" + chip + "</p>" +
+      "<p>Hora de recogida: <b>" + esc(t.horaRecogida || "—") + "</b></p>" +
       "<p>" + bloqueInfo + "</p>" +
       "</div>" +
       "</div>" +
@@ -130,7 +153,8 @@
 
   const MODULOS = [
     { clave: "inicio", etiqueta: "Inicio", roles: ["administrador", "empleado"] },
-    { clave: "asignacion", etiqueta: "Asignación de cupo", roles: ["administrador", "empleado", "cliente"] },
+    { clave: "asignacion", etiqueta: "Mi cupo de gasolina", roles: ["cliente"] },
+    { clave: "solicitudes", etiqueta: "Solicitudes de cupo", roles: ["administrador", "empleado"] },
     { clave: "tickets", etiqueta: "Tickets", roles: ["administrador", "empleado"] },
     { clave: "estacion", etiqueta: "Surtir estación", roles: ["administrador", "empleado"] },
     { clave: "usuarios", etiqueta: "Usuarios", roles: ["administrador"] },
@@ -146,8 +170,12 @@
 
   /* =============================== INICIO =============================== */
 
-  function iniciar() {
-    estado.estacion = almacenamiento.cargar();
+  async function iniciar() {
+    try {
+      estado.estacion = await almacenamiento.cargar();
+    } catch (e) {
+      estado.estacion = null;
+    }
     if (!estado.estacion) {
       estado.estacion = new EstacionServicio();
       const admin = new Administrador(
@@ -162,20 +190,10 @@
       estado.estacion.agregarUsuario(emp);
       guardar();
     }
-    finalizarPendientes();
+    // Las solicitudes pendientes NO se cancelan al recargar: ahora las
+    // confirma o cancela el personal desde «Solicitudes de cupo».
     configurarApp();
     pintarLogin();
-  }
-
-  function finalizarPendientes() {
-    let cambios = false;
-    estado.estacion.tickets.forEach(function (t) {
-      if (t.estatus === "pendiente") {
-        t.cancelar("Tiempo de espera agotado (la sesión se cerró o recargó la página).");
-        cambios = true;
-      }
-    });
-    if (cambios) guardar();
   }
 
   /* =============================== LOGIN =============================== */
@@ -220,10 +238,9 @@
     $("btn-codigo-cliente").addEventListener("click", enviarCodigoCliente);
   }
 
-  function reiniciarDemo() {
+  async function reiniciarDemo() {
     if (!confirm("Se borrarán todos los datos y se volverá al estado inicial. ¿Continuar?")) return;
-    ORC.detenerTemporizador();
-    almacenamiento.limpiar();
+    await almacenamiento.limpiar();
     location.reload();
   }
 
@@ -266,6 +283,7 @@
   function abrirSesion(usuario) {
     estado.usuario = usuario;
     estado.rol = usuario.rol();
+    estado.solicitante = estado.rol === "cliente" ? solicitanteDe(usuario) : null;
     estado.resultadoActual = null;
     $("pantalla-login").classList.add("oculto");
     $("pantalla-app").classList.remove("oculto");
@@ -278,6 +296,7 @@
   function entrarCliente() {
     estado.usuario = null;
     estado.rol = "cliente";
+    estado.solicitante = solicitanteDe(null);
     estado.resultadoActual = null;
     $("pantalla-login").classList.add("oculto");
     $("pantalla-app").classList.remove("oculto");
@@ -297,10 +316,11 @@
       $("c-telefono").value.trim());
     const errores = cliente.validar();
     if (!listarErrores(errores, $("c-errores"))) return;
-    if (estado.estacion.usuarios.some(function (u) {
-      return u.cedula === cliente.cedula;
-    })) {
-      listarErrores(["Ya existe un usuario con esa cédula."], $("c-errores"));
+    // Cédula, correo y teléfono deben ser únicos: se comprueba antes de
+    // enviar el código para no verificar una cuenta que no se podrá guardar.
+    const duplicado = estado.estacion.buscarDuplicado(cliente);
+    if (duplicado) {
+      listarErrores([duplicado], $("c-errores"));
       return;
     }
     $("c-correo").setAttribute("disabled", "disabled");
@@ -370,14 +390,11 @@
   }
 
   function salir() {
-    if (estado.ticketActual) {
-      estado.ticketActual.cancelar("Sesión finalizada antes de confirmar la asignación.");
-      estado.ticketActual = null;
-      guardar();
-    }
-    ORC.detenerTemporizador();
+    // La solicitud pendiente sigue vigente: la resuelve el personal.
+    estado.ticketActual = null;
     estado.usuario = null;
     estado.rol = null;
+    estado.solicitante = null;
     estado.resultadoActual = null;
     pintarLogin();
   }
@@ -466,16 +483,19 @@
       $("modal-error").textContent = "El código tiene 4 dígitos.";
       return;
     }
+    const datos = estado.modalDatos;
     try {
-      const aceptar = estado.modalDatos.alAceptar;
-      const codigoGenerado = estado.modalDatos.codigoGenerado;
       $("modal").classList.add("oculto");
       estado.modalDatos = null;
-      estado.usuarioPendienteVerificar = null;
-      aceptar(codigo, codigoGenerado);
+      // No se limpia aquí `usuarioPendienteVerificar`: el callback lo usa
+      // para guardar la cuenta y, si el código es incorrecto, permite reintentar.
+      datos.alAceptar(codigo, datos.codigoGenerado);
     } catch (e) {
+      // Código incorrecto u otro fallo: se deja reintentar sin cerrar todo.
+      estado.modalDatos = datos;
       $("modal").classList.remove("oculto");
       $("modal-error").textContent = e.message;
+      $("modal-input").value = "";
     }
   }
 
@@ -495,6 +515,15 @@
     navegar: navegar,
     enviarEmailReal: enviarEmailReal,
     htmlTicket: htmlTicket,
+    /* Vuelve a leer el estado del servidor (o del respaldo local) para
+       que el personal y el cliente vean los cambios hechos en otra sesión. */
+    recargarEstado: async function () {
+      try {
+        const nueva = await almacenamiento.cargar();
+        if (nueva) estado.estacion = nueva;
+      } catch (e) { /* se conserva el estado en memoria */ }
+      return estado.estacion;
+    },
     pintores: {},
     detenerTemporizador: function () {},
     reiniciar: reiniciarDemo
